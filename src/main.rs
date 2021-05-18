@@ -5,7 +5,15 @@ use std::time::Duration;
 
 mod test;
 
+fn generic_function<Type1:ToString>(arg: Type1) -> Result<String, String> {
+    return Ok(arg.to_string());
+}
+
 pub fn main() -> Result<(), String> {
+
+
+    let some = generic_function("test");
+    println!("Some result: {}", some?);
 
     test::other_method();
 
