@@ -2,8 +2,13 @@ use sdl2::pixels::Color;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use std::time::Duration;
- 
+
+mod test;
+
 pub fn main() -> Result<(), String> {
+
+    test::other_method();
+
     let sdl_result = sdl2::init();
 
     let sdl_context = match sdl_result {
