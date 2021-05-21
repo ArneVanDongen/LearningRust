@@ -20,7 +20,6 @@ mod tests {
 
     #[test]
     fn classic_c_structs() {
-        // TODO: Instantiate a classic c struct!
         let green = ColorClassicStruct{name: NAME.to_string(), hex: HEX.to_string()};
 
         assert_eq!(green.name, "green");
@@ -29,7 +28,6 @@ mod tests {
 
     #[test]
     fn tuple_structs() {
-        // TODO: Instantiate a tuple struct!
         let green = ColorTupleStruct(NAME.to_string(), HEX.to_string());
 
         assert_eq!(green.0, "green");
@@ -38,7 +36,6 @@ mod tests {
 
     #[test]
     fn unit_structs() {
-        // TODO: Instantiate a unit struct!
         let unit_struct = UnitStruct;
         let message = format!("{:?}s are fun!", unit_struct);
 
