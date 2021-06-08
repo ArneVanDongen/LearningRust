@@ -33,12 +33,47 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of Person
 // Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
-
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        println!("String {} has {} chars", s, s.chars().count());
+        match s.chars().count() {
+            0 => Person::default(),
+            _ => parsePersonString(s)
+        }
+    
     }
 }
+
+
+fn parsePersonString(nonEmptyString: &str) -> Person {
+    let splitString: Vec<&str> = nonEmptyString.split(",").collect();
+    match splitString.len() {
+        2 => parsePersonVec(splitString),
+        _ => Person::default(),
+    }
+}
+
+fn parsePersonVec(splitString: Vec<&str>) -> Person {
+    println!("Split string = {:?}", splitString);
+    let name = splitString[0];
+    match name.chars().count() {
+        0 => Person::default(),
+        _ => parsePersonStringWithName(name, splitString[1])
+    }
+}
+
+
+fn parsePersonStringWithName(name: &str, age: &str) -> Person {
+    println!("parsePersonWithAge. name = {:?}, age = {:?}", name, age);
+    
+    let ageNum = age.to_string().parse::<usize>();
+    println!("ageNum = {:?}", ageNum);
+    match ageNum {
+        Ok(x) => Person{name: name.to_string(), age: x},
+        Err(x) => Person::default()
+    }
+}
+
 
 fn main() {
     // Use the `from` function

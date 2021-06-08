@@ -4,6 +4,7 @@
 // You can read more about it at https://doc.rust-lang.org/std/str/trait.FromStr.html
 use std::error;
 use std::str::FromStr;
+use std::fmt::{Display, Formatter};
 
 #[derive(Debug)]
 struct Person {
@@ -11,7 +12,16 @@ struct Person {
     age: usize,
 }
 
-// I AM NOT DONE
+#[derive(Debug)]
+enum ConversionError {
+    FailedToConvert,
+}
+
+impl Display for ConversionError {
+    fn fmt(&self, _: &mut Formatter<'_>) -> Result<(), std::fmt::Error> { Ok(()) }
+}
+
+impl std::error::Error for ConversionError {}
 
 // Steps:
 // 1. If the length of the provided string is 0, an error should be returned
@@ -26,6 +36,40 @@ struct Person {
 impl FromStr for Person {
     type Err = Box<dyn error::Error>;
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+        println!("String {} has {} chars", s, s.chars().count());
+        match s.chars().count() {
+            0 => Err(Box::new(ConversionError::FailedToConvert)),
+            _ => parsePersonString(s)
+        }
+    }
+}
+
+fn parsePersonString(nonEmptyString: &str) -> Result<Person, Box<dyn error::Error>> {
+    let splitString: Vec<&str> = nonEmptyString.split(",").collect();
+    match splitString.len() {
+        2 => parsePersonVec(splitString),
+        _ => Err(Box::new(ConversionError::FailedToConvert)),
+    }
+}
+
+fn parsePersonVec(splitString: Vec<&str>) -> Result<Person, Box<dyn error::Error>> {
+    println!("Split string = {:?}", splitString);
+    let name = splitString[0];
+    match name.chars().count() {
+        0 => Err(Box::new(ConversionError::FailedToConvert)),
+        _ => parsePersonStringWithName(name, splitString[1])
+    }
+}
+
+
+fn parsePersonStringWithName(name: &str, age: &str) -> Result<Person, Box<dyn error::Error>> {
+    println!("parsePersonWithAge. name = {:?}, age = {:?}", name, age);
+    
+    let ageNum = age.to_string().parse::<usize>();
+    println!("ageNum = {:?}", ageNum);
+    match ageNum {
+        Ok(x) => Ok(Person{name: name.to_string(), age: x}),
+        Err(x) => Err(Box::new(ConversionError::FailedToConvert))
     }
 }
 
