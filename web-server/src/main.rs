@@ -28,14 +28,17 @@ fn handle_connection(mut stream: TcpStream) {
     }
 }
 
-fn handle_get_request(mut stream: TcpStream) {
+fn handle_get_request(stream: TcpStream) {
     let response = create_response_with_file_and_status("hello.html", "HTTP/1.1 200 OK");
-    stream.write(response.as_bytes()).unwrap();
-    stream.flush().unwrap();
+    send_response(stream, response);
 }
 
-fn handle_unknown_request(mut stream: TcpStream) {
+fn handle_unknown_request(stream: TcpStream) {
     let response = create_response_with_file_and_status("404.html", "HTTP/1.1 404 NOT FOUND");
+    send_response(stream, response);
+}
+
+fn send_response(mut stream: TcpStream, response: String) {
     stream.write(response.as_bytes()).unwrap();
     stream.flush().unwrap();
 }
