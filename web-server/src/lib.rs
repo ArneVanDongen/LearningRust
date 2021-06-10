@@ -1,10 +1,12 @@
-use std::sync::{Arc, Mutex, mpsc};
+use std::sync::{mpsc, Arc, Mutex};
 use std::thread;
 
 #[derive(Debug)]
 pub enum PoolCreationError {
     SizeOfZero,
 }
+
+type Job = Box<dyn FnOnce() + Send + 'static>;
 
 pub struct ThreadPool {
     workers: Vec<Worker>,
@@ -16,8 +18,6 @@ struct Worker {
     thread: thread::JoinHandle<()>,
 }
 
-struct Job;
-
 impl ThreadPool {
     pub fn new(size: usize) -> Result<ThreadPool, PoolCreationError> {
         match size {
@@ -26,7 +26,6 @@ impl ThreadPool {
                 let (sender, receiver) = mpsc::channel();
                 let receiver = Arc::new(Mutex::new(receiver));
                 let mut workers = Vec::with_capacity(size);
-
                 for id in 0..size {
                     workers.push(Worker::new(id, Arc::clone(&receiver)));
                 }
@@ -40,13 +39,19 @@ impl ThreadPool {
     where
         F: FnOnce() + Send + 'static,
     {
+        let job = Box::new(f);
+        self.sender.send(job).unwrap();
     }
 }
 
 impl Worker {
     fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
-        let thread = thread::spawn(|| {
-            receiver;
+        let thread = thread::spawn(move || loop {
+            let job = receiver.lock().unwrap().recv().unwrap();
+
+            println!("Worker {} got a job; executing.", id);
+
+            job();
         });
 
         Worker { id, thread }
