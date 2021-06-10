@@ -3,13 +3,18 @@ use std::io::prelude::*;
 use std::net::TcpListener;
 use std::net::TcpStream;
 
+use webserver::ThreadPool;
+
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+    let pool = ThreadPool::new(4).unwrap();
 
     for stream in listener.incoming() {
         let stream = stream.unwrap();
 
-        handle_connection(stream);
+        pool.execute(|| {
+            handle_connection(stream);
+        });
     }
 }
 
@@ -22,8 +27,10 @@ fn handle_connection(mut stream: TcpStream) {
     if buffer.starts_with(get) {
         handle_get_request(stream);
     } else {
-        println!("We dont know how to handle the following request yet:\n{}", 
-            String::from_utf8_lossy(&buffer[..]));
+        println!(
+            "We dont know how to handle the following request yet:\n{}",
+            String::from_utf8_lossy(&buffer[..])
+        );
         handle_unknown_request(stream);
     }
 }
