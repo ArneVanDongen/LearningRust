@@ -6,11 +6,16 @@ pub enum PoolCreationError {
     SizeOfZero,
 }
 
+enum Message {
+    NewJob(Job),
+    Terminate,
+}
+
 type Job = Box<dyn FnOnce() + Send + 'static>;
 
 pub struct ThreadPool {
     workers: Vec<Worker>,
-    sender: mpsc::Sender<Job>,
+    sender: mpsc::Sender<Message>,
 }
 
 struct Worker {
@@ -20,10 +25,18 @@ struct Worker {
 
 impl Drop for ThreadPool {
     fn drop(&mut self) {
+
+        let mut counter = 0;
+        while &counter < &self.workers.len() {
+            self.sender.send(Message::Terminate).unwrap();
+            counter += 1;
+        }
+
         for worker in &mut self.workers {
-            println!("Dropping worker {}", worker.id);
             if let Some(thread) = worker.thread.take() {
                 thread.join().unwrap();
+            } else {
+                println!("Worker already terminated!");
             }
         }
     }
@@ -51,21 +64,27 @@ impl ThreadPool {
         F: FnOnce() + Send + 'static,
     {
         let job = Box::new(f);
-        self.sender.send(job).unwrap();
+        self.sender.send(Message::NewJob(job)).unwrap();
     }
 }
 
 impl Worker {
-    fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
+    fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Message>>>) -> Worker {
         let thread = thread::spawn(move || loop {
-            let job = receiver.lock().unwrap().recv().unwrap();
+            let message = receiver.lock().unwrap().recv().unwrap();
 
-            println!("Worker {} got a job; executing.", id);
-
-            job();
+            match message {
+                Message::NewJob(job) => {
+                    println!("Worker {} got a job; executing.", id);
+                    job();
+                }
+                Message::Terminate => {
+                    println!("Worker {} was told to terminate.", id);
+                    break;
+                }
+            }
         });
 
         Worker { id, thread:Some(thread) }
     }
 }
-// TODO continue https://doc.rust-lang.org/book/ch20-03-graceful-shutdown-and-cleanup.html
