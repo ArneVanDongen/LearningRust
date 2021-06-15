@@ -3,6 +3,7 @@ use std::io::prelude::*;
 use std::net::TcpListener;
 use std::net::TcpStream;
 
+use httparse::Request;
 use webserver::ThreadPool;
 
 fn main() {
@@ -22,22 +23,37 @@ fn handle_connection(mut stream: TcpStream) {
     let mut buffer = [0; 1024];
     stream.read(&mut buffer).unwrap();
 
-    let get = b"GET / HTTP/1.1\r\n";
+    let mut headers = [httparse::EMPTY_HEADER; 16];
+    let mut request = httparse::Request::new(&mut headers);
+    request.parse(&buffer).unwrap();
 
-    if buffer.starts_with(get) {
-        handle_get_request(stream);
-    } else {
-        println!(
-            "We dont know how to handle the following request yet:\n{}",
-            String::from_utf8_lossy(&buffer[..])
-        );
-        handle_unknown_request(stream);
+    match request.method {
+        Some(x) => match x {
+            "GET" => handle_get_request(request, stream),
+            _ => {
+                println!("We cant handle {} requests yet", x);
+                handle_unknown_request(stream)
+            }
+        },
+        None => handle_unknown_request(stream),
     }
 }
 
-fn handle_get_request(stream: TcpStream) {
-    let response = create_response_with_file_and_status("hello.html", "HTTP/1.1 200 OK");
-    send_response(stream, response);
+fn handle_get_request(request: Request, stream: TcpStream) {
+    match request.path {
+        Some(x) => match x {
+            "/" => {
+                let response =
+                    create_response_with_file_and_status("hello.html", "HTTP/1.1 200 OK");
+                send_response(stream, response)
+            }
+            _ => {
+                println!("No page for path {} found", x);
+                handle_unknown_request(stream)
+            }
+        },
+        None => handle_unknown_request(stream),
+    }
 }
 
 fn handle_unknown_request(stream: TcpStream) {
