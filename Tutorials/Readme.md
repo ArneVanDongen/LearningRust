@@ -2,11 +2,19 @@
 
 ## Rust Tutorial by Doug Milford
 
-Rust Primitives (basic data)
+~~Rust Primitives (basic data)~~
 <details>
 <summary>Notes</summary>
 
-stuff
+  Nothing too interesting, basic variable declaration stuff.
+  `snake_case` convention in rust for naming things.
+  Compiler figures out what type a variable will be, so no need to explicitely define it (but you can with `: type`)
+  Everything is immutable by default, yay.
+  `i8, i16` types for integers, `ux` for zero and positive only.
+  Overflowing a variable cause a panic while running in debug mode (`cargo run`) but will wrap around (`let mut x: i8 = 120; x += 10; println!(x)` results in -126) in release mode (`cargo run --release`).
+  `isize` and `usize` creates a variable with a size based on the computer's architecture (32 vs 64 bit these days).
+  Floats only have 32 and 64 bit variants. Don't forget the dot.
+  Chars are more than ascii.
 </details>
 Rust String vs str slices
 <details>
