@@ -59,6 +59,7 @@ stuff
 
 stuff
 </details>
+
 ### Rust Enumerations
 <details>
 <summary>Notes</summary>
