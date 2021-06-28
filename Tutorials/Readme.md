@@ -25,11 +25,38 @@
   Chars are more than ascii.
 </details>
 
-### Rust String vs str slices
+### ~~Rust String vs str slices~~
 <details>
 <summary>Notes</summary>
 
-stuff
+  Rust strings are harder because complexity isn't hidden by the language
+  
+  ```
+             | String | &str
+  pronounced | String | string slice
+  stored as  | u8s    | u8s
+  stored on  | Heap   | Usually on the stack, sometimes ref to heap data, or embedded in code
+  mut?       | Yes    | No (exceptions)
+  ```
+  One can easily translate between the two types.
+  
+  Strings is for mutating and holding data longer than the stack can, string slice is for runtime speed.
+  
+  From string slice to String can be done using `to_string()` or passing a it to `String::from()`.
+  
+  From String to string slice take the `&` reference of the string variable.
+  
+  To combine two string slices, put them in an array and call `.concat()` on it, or use the `format!()` macro.
+  
+  You can add a string slice to a String by using the `+` operator. The String NEEDS to go first.
+  
+  You can add a string slice to a String by making the String `mut` and using `push_str()`. Adding chars can be done by using `push()`.
+  
+  You can add two Strings by using `+` and referencing the second String (so it becomes a string slice).
+  
+  Taking a substring of a string slice can be done using brackets: `let s = "string slice"; let substring = &s[0..3]` which takes up to but not including. You can ommit either the first or last number. Overflowing will cause the program to panic.
+  
+  Getting the char at an index can be done like so: `&s.chars().nth(i)`, this is safer because it returns an Option.
 </details>
 
 ### Rust Functions and Procedures
