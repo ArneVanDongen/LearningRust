@@ -59,11 +59,15 @@
   Getting the char at an index can be done like so: `&s.chars().nth(i)`, this is safer because it returns an Option.
 </details>
 
-### Rust Functions and Procedures
+### ~~Rust Functions and Procedures~~
 <details>
 <summary>Notes</summary>
 
-stuff
+  Functions and procedures are similar in the they both accept parameters and can call other code.
+  
+  Difference is in that functions return a value, while procedures do not.
+  
+  Omit the semicolon if you want to return a value, you can use the `return` keyword as well.
 </details>
 
 ### Rust Conditional Statements
