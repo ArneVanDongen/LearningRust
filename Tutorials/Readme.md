@@ -70,11 +70,15 @@
   Omit the semicolon if you want to return a value, you can use the `return` keyword as well.
 </details>
 
-### Rust Conditional Statements
+### ~~Rust Conditional Statements~~
 <details>
 <summary>Notes</summary>
 
-stuff
+  `false`, `true` and `==`. `()` not needed.
+  
+  Inline if statement can be done: `let var = if some_int == 9 { 300 } else { 400 };` Can contain else if as well.
+  
+  `match` statement has more capabilities than if. Example: `let var = match some_int { 9 => 200, 10..=100 => 300, _ => 400, };`. Match statements have to be exhaustive.
 </details>
 
 ### Rust Tuples
