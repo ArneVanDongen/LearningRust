@@ -81,11 +81,23 @@
   `match` statement has more capabilities than if. Example: `let var = match some_int { 9 => 200, 10..=100 => 300, _ => 400, };`. Match statements have to be exhaustive.
 </details>
 
-### Rust Tuples
+### ~~Rust Tuples~~
 <details>
 <summary>Notes</summary>
 
-stuff
+  Tuple is a group of data, elements inside it don't have names. Used to group things without constructing complex objects.
+  
+  Created in rust like so: `let some_tuple = (2, 3.4);` And accessed with dot notation `println!("My data is {} {}", some_tuple.0, some_tuple.1);`
+  
+  Can contain any collection of datatypes, and any amount of elements.
+  
+  Getting elements of nested tuptles can be done by using spaces after the first index `some_tuple.5 .2` or by using parentheses `(some_tuple.5).2`.
+  
+  You can populate multiple variables from a tuple: `let (red, green, blue) = get_some_rgb();`.
+  
+  The empty tuple, or unit tuple, `()` is like void, or empty closure.
+  
+  Be mindful of what your data represents, and create data types to properly describe your data.
 </details>
 
 ### Rust Structs, Traits and Impl
