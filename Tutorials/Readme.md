@@ -100,11 +100,82 @@
   Be mindful of what your data represents, and create data types to properly describe your data.
 </details>
 
-### Rust Structs, Traits and Impl
+### ~~Rust Structs, Traits and Impl~~
 <details>
 <summary>Notes</summary>
 
-stuff
+  Structs represent complex data types, they act like objects, but are different:
+  
+  * Inheritance can't be done.
+  * Polymorphism can be done through Traits.
+  * Structs can have methods.
+  
+  It's nice to sort fields in a struct alphabetically.
+  
+  If you want to be able to edit fields in a struct, declare the var that holds the struct instant as `mut` and all fields will become mutable.
+  
+  You can copy values from another instance of the same struct by passing it into the constructor:
+  ```Rust
+  let some_struct_2 = SomeStruct {
+    field1: 22,
+    ..some_struct_1
+  }
+  ```
+  
+  If using a Struct declared in a different file, use the `pub` keyword where its declared to make it visible outside that file. This applies to fields within the structs as well.
+  
+  If you want to do something like inheritance, use composition instead.
+  ```Rust
+  struct AnotherStruct {
+    an_additional_int: i32,
+    some_struct: SomeStruct,
+  }
+  ```
+  
+  Methods are defined outside the struct definition using the `impl` keyword. These are associated functions.
+  ```Rust
+  impl AnotherStruct {
+    pub fn some_fuction(param: bool) -> i32 {
+      if param { 1 } else { 2 };
+    }
+  }
+  ```
+  
+  When implementing associated functions you can use `Self` to represent the struct you're implementing for.
+  
+  To use data from the struct instance itself in an associated function, set the first parameter to `&self`:
+  ```Rust
+  impl AnotherStruct {
+    pub fn is_smaller(&self, compare_to: i32) -> bool {
+      self.an_additional_int < compare_to
+    }
+  }
+  ```
+  
+  The `&self` is assumed when a method like this is called and doesn't need to be entered manually: `another_struct.is_smaller(9)`.
+  
+  Calling method can be done through `::` or by `.`. If the `&self` keyword is used, use the `.` dot notation, else use the `::` notation.
+  
+  Traits are for polymorphism (treating different structs the same).
+  ```Rust
+  impl SomeTrait for AnotherStruct {
+    fn is_valid(&self) -> bool {
+      self.an_additional_int > 0
+    }
+  }
+  ```
+  
+  Now AnotherStruct can be used alongside other structs that have `SomeTrait`.
+
+  Traits can be used in method definitions like so:
+  ```Rust
+  fn print_if_valid(check_me: &dyn SomeTrait) {
+    if check_me.is_valid() {
+      println!("We're valid");
+    }
+  }
+  ```
+  
 </details>
 
 ### Rust Enumerations
