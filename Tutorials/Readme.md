@@ -178,11 +178,29 @@
   
 </details>
 
-### Rust Enumerations
+### ~~Rust Enumerations~~
 <details>
 <summary>Notes</summary>
 
-stuff
+  Enums can have any struct as data:
+  ```Rust
+  enum Payment {
+    Cash (f32),
+    CreditCard,
+    DebitCard,
+  }
+  let some_payment = Payment::Cash(100.);
+  ```
+  
+  These can be strongly typed with explicit names as well:
+  ```Rust
+  enum Payment {
+    Cash (f32),
+    CreditCard,
+    DebitCard,
+    Crypto{accound_id: String, amount: f32},
+  }
+  ```
 </details>
 
 ### Rust Generics
