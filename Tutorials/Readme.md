@@ -203,11 +203,54 @@
   ```
 </details>
 
-### Rust Generics
+### ~~Rust Generics~~
 <details>
 <summary>Notes</summary>
 
-stuff
+  Structs must have unique names, so if you want to create multiple kinds of similar structs, you can create a generic struct.
+  ```Rust
+  struct Point<T> { // type param is specified as generic by angle brackets and upper camel case: <Aaa, Bbb, ...>
+    x: T,
+    y: T,
+  }
+  ```
+
+  Enums and functions can be generics too.
+  
+  The compiler makes explicit versions of generics for every type it is used with.
+        
+  To make generics less generic, you can use constraints to specify what a type passed to the generic should be able to do. Constraints are specified with a colon after the Type definition. If you want to add multiple constraits, use the `+` operator after the first one.
+
+  ```Rust
+  fn add<T: std::ops::add<Output=T>>(a: T, b: T) -> T {
+    a + b
+  }
+  ```
+
+  If you have a lot of constraints on your generic you can use a where clause to improve readability of the method signature.
+
+  ```Rust
+  fn add<T>(a: T, b: T) -> T 
+  where T: std::ops::add<Output=T> {
+    a + b
+  }
+  ```
+
+  Implementing for a genecic struct looks like so
+  ```Rust
+  struct Point<T> {
+    x: T,
+    y: T,
+  }
+
+  impl<T> Point
+  where T: std::fmt::Debug { // Constraints go on the impl block
+    fn log_something(&self) {
+      println!("{:?} {:?}", self.x, self.y);
+    }
+  }
+  ```
+        
 </details>
 
 ### Rust Ownership and Borrowing
