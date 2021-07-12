@@ -257,7 +257,7 @@
 <details>
 <summary>Notes</summary>
 
-stuff
+  I had notes here before but forgot to commit them before restarting my pc -_-
 </details>
 
 ### Rust Lifetimes
