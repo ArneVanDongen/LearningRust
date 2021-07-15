@@ -321,7 +321,13 @@
 <details>
 <summary>Notes</summary>
 
-stuff
+  There is no implicit casting in Rust. You can explicitly cast with `as`.
+
+  Shadowing in inner scopes can be done. The outer scope value is not affected.
+
+  Constants can be created with the `const` keyword. These are immutable of course, but it is not treated as a variable. The compiler will replace all instances of the constant with the actual value stored in it.
+
+  Static variables can be used to create a mutable global variable like so: `static mut STATIC_VARIABLE: i8 = 10;`. To read or write to this value you have to surround it with an `unsafe` block. For good reason.
 </details>
 
 ### Rust println! and format! macros
