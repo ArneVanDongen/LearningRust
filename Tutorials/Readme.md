@@ -260,11 +260,62 @@
   I had notes here before but forgot to commit them before restarting my pc -_-
 </details>
 
-### Rust Lifetimes
+### ~~Rust Lifetimes~~
 <details>
 <summary>Notes</summary>
 
-stuff
+        Lifetimes are about references and allow for multiple refrences. They are a way of enforcing if a piece of memory is still valid for a reference.
+        
+        Here `b` is cleaned up at the end of the scope, and since a only is a reference to b it is referencing garbage after b has gone out of use.
+        
+        ```Rust
+        let a;
+        {
+          let b = String::from("a");
+          a = &b; // compile error: `b` does not live long enough
+        }
+        println!("{}", a);
+        ```
+        
+        Lifetimes are about making ensuring memory does not get cleaned up before a reference can use it.
+        
+        Writing lifetimes in method definitions is done by using angle brackets with an apostrophe in front of it:
+        
+        ```Rust
+        fn get_ref<'a>(param_1: &'a i8) -> &'a i8 { // can be any amount of characters. a, b are conventions.
+          param_1
+        }
+        ```
+        
+        This means that the input memory lives in the same scope as the output memory, and is the same as happens implicitly by default. The compiler will tell you when you explicitly need to define lifetimes in methods.
+        
+        In case you run into conflicting lifetime lengths, you have to tell the compiler that one should last as least as long as the other:
+        
+        ```Rust
+        fn get_ref<'a, 'b: 'a>(param_1: &'a i8, (param_1: &'b i8) -> &'a i8 { // because of the if else, the compiler can't guarantee lifetime `a` is used. This makes us write the colon notation
+          if param_1 > param_2 {
+            param_1
+          } else {
+            param_2 // this would normally cause a compile error: lifetime mismatch
+          }
+        }
+        ```
+        
+        This is called lifetime sub typing.
+        
+        If you know the method arguments are always from the same scope, you can also just give them the same lifetime:
+        
+        ```Rust
+        fn get_ref<'a>(param_1: &'a i8, (param_1: &'a i8) -> &'a i8 { 
+          if param_1 > param_2 {
+            param_1
+          } else {
+            param_2
+          }
+        }
+        ```
+        
+        
 </details>
 
 ### Rust Casting, Shadowing, Consts and Static
