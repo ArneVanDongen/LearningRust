@@ -317,7 +317,7 @@
 
 </details>
 
-### Rust Casting, Shadowing, Consts and Static
+### ~~Rust Casting, Shadowing, Consts and Static~~
 <details>
 <summary>Notes</summary>
 
