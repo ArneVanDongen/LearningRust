@@ -330,11 +330,22 @@
   Static variables can be used to create a mutable global variable like so: `static mut STATIC_VARIABLE: i8 = 10;`. To read or write to this value you have to surround it with an `unsafe` block. For good reason.
 </details>
 
-### Rust println! and format! macros
+### ~~Rust println! and format! macros~~
 <details>
 <summary>Notes</summary>
 
-stuff
+  The `println!` macro takes text with placeholders and arguments for them and writes it to std out, ending with a new line. The following are all equivalent:
+  ```Rust
+  fn main { 
+    println!("My name is {}, {}", "Arne", "van Dongen");
+    println!("My name is {1}, {0}", "van Dongen", "Arne");
+    println!("My name is {first_name}, {last_name}", first_name = "Arne", last_name = "van Dongen");
+  }
+  ```
+
+  Pretty printing structs can be done using the `:#?` symbols inside the placeholder brackets.
+
+  The `format!` macro works exactly like `println!`, except that it returns a variable instead of printing to the terminal.
 </details>
 
 ### Rust lib vs main
