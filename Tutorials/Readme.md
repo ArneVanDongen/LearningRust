@@ -348,11 +348,15 @@
   The `format!` macro works exactly like `println!`, except that it returns a variable instead of printing to the terminal.
 </details>
 
-### Rust lib vs main
+### ~~Rust lib vs main~~
 <details>
 <summary>Notes</summary>
 
-stuff
+  To use code from different rust files, use the `mod` keyword followed by the file name (minus ext) at the top of the file you want to use it in.
+
+  A "main" project is a self-contained runnable program. It is also called a "bin" project because it will create an executable binary. It requires at least a `main.rs` file in the `src` folder with a main function to act as an entry point for the application. This can reference other files in your project or crates.
+
+  A "lib", or library, project is not intended to be ran by itself but instead it can expose code for other programs to use. It requires at least a `lib.rs` file in the `src` folder. This can reference other files in your project or crates. Usually the lib file is only an organizer for child files of the project.
 </details>
 
 ### Rust Cargo.toml
