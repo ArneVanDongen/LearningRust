@@ -378,11 +378,62 @@
   `Cargo.toml` can also be used for build scripts, environmental variables, publish to cratios.io, multiple build targets and more.
 </details>
 
-### Rust Cargo and Rustup Commands
+### ~~Rust Cargo and Rustup Commands~~
 <details>
 <summary>Notes</summary>
 
-stuff
+  Cargo is like Maven, Rustup is manages your version of Rust.
+
+  Cargo commands overview:
+  ```
+  // Create a new project / package with a Git repository, cargo.toml and Hello World code
+  cargo new snake_case_name
+  /** Option    Effect
+    --lib       Create a lib package instead of default bin package
+  */
+
+  // Compile a package
+  cargo build
+  /** Option    Effect
+    --release   Compile a release build. A debug build often builds faster and allows for breakpoints, release builds run faster but takes longer.
+  */
+
+  // Compile a package (if necessary), and run a package
+  cargo run
+
+  // Check for compile errors without building the package
+  cargo check
+
+  // Compiles and runs Your lib code as a test
+  cargo test
+
+  // Auto generates documentation in the target/doc folder
+  cargo doc
+
+  // Compiles your code into a crate for others to use on crates.io
+  cargo publish
+  ```
+        
+  Rustup commands overview:
+  ```
+  // Install Rust
+  rustup install
+  /** Option    Effect
+    x.y.z       Select a specific version to install
+    beta        Select unreleased version
+    nightly     Select bleeding edge version
+    stable      Select last stable version
+  */
+
+  // uninstall a version (see options above)
+  rustup unistall
+
+  // Set which toolchain you select by default (see options above)
+  rustup default
+
+  // Check which version of Rust is currently being used
+  rustc --version
+  ```
 </details>
 
 ### Rust 3D Graphics in the Browser: Boilerplate Setup and WASM Introduction
