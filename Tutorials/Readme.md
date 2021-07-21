@@ -363,7 +363,19 @@
 <details>
 <summary>Notes</summary>
 
-stuff
+  `Cargo.toml` contains basic package info and depdendencies needed for the package.
+
+  Use crates.io to find dependencies and their docs / versions etc. Cargo uses this to verify dependencies specified in `cargo.toml`.
+
+  You can use special symbols to specify minimal versions (~, ^, > and < in front of the version, and * as a wildcard within the version).
+
+  `Cargo.lock` is auto generated and contains more detailed info about dependencies.
+
+  Dependencies can also refer to git repositories and local files instead of to crates.io (which is the default).
+
+  `[dev-dependencies]` can be used for dependencies that should not be included in the final product (i.e. test dependencies).
+
+  `Cargo.toml` can also be used for build scripts, environmental variables, publish to cratios.io, multiple build targets and more.
 </details>
 
 ### Rust Cargo and Rustup Commands
