@@ -359,7 +359,7 @@
   A "lib", or library, project is not intended to be ran by itself but instead it can expose code for other programs to use. It requires at least a `lib.rs` file in the `src` folder. This can reference other files in your project or crates. Usually the lib file is only an organizer for child files of the project.
 </details>
 
-### Rust Cargo.toml
+### ~~Rust Cargo.toml~~
 <details>
 <summary>Notes</summary>
 
