@@ -4,12 +4,9 @@ const gl = canvas.getContext('webgl', { antialias: true });
 
 rust.then(r => {
     if (!gl) {
-        alert(' Failed to initialize WebGL');
+        alert('Failed to initialize WebGL');
         return;
     }
-
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
     const client = new r.Client();
     const initialTime = Date.now();
