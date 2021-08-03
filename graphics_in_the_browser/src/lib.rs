@@ -50,10 +50,10 @@ impl Client {
 
         self.program_color_2d.render(
             &self.gl,
-            0.,
-            500.,
-            0.,
-            500.,
+            current_state.control_bottom,
+            current_state.control_top,
+            current_state.control_left,
+            current_state.control_right,
             current_state.canvas_height,
             current_state.canvas_width,
         );
