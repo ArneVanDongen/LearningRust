@@ -23,6 +23,7 @@ extern "C" {
 pub struct Client {
     gl: GL,
     program_color_2d: programs::Color2D,
+    program_color_2d_gradient: programs::Color2DGradient,
 }
 
 #[wasm_bindgen]
@@ -34,6 +35,7 @@ impl Client {
 
         Self {
             program_color_2d: programs::Color2D::new(&gl),
+            program_color_2d_gradient: programs::Color2DGradient::new(&gl),
             gl,
         }
     }
@@ -57,5 +59,16 @@ impl Client {
             current_state.canvas_height,
             current_state.canvas_width,
         );
+
+        self.program_color_2d_gradient.render(
+            &self.gl,
+            current_state.control_bottom + 40.,
+            current_state.control_top - 40.,
+            current_state.control_left + 40.,
+            current_state.control_right - 40.,
+            current_state.canvas_height,
+            current_state.canvas_width,
+        );
     }
+
 }
